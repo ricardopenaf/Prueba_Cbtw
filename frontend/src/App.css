@@ -1,0 +1,77 @@
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 24px 16px 64px;
+}
+
+h1 {
+  font-size: 24px;
+}
+
+h2 {
+  font-size: 18px;
+  margin-top: 32px;
+}
+
+.events-error {
+  color: #b91c1c;
+  font-size: 14px;
+}
+
+.events-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.events-table th,
+.events-table td {
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+.reservation-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 320px;
+}
+
+.reservation-form .field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.reservation-form input {
+  padding: 8px;
+  font-size: 14px;
+}
+
+.reservation-form button {
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.reservation-form button:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.result-panel {
+  margin-top: 24px;
+  padding: 16px;
+  border-radius: 6px;
+}
+
+.result-panel.success {
+  background: rgba(34, 197, 94, 0.12);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+}
+
+.result-panel.error {
+  background: rgba(239, 68, 68, 0.12);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+}
