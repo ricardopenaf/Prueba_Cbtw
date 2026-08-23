@@ -89,6 +89,17 @@ Se sirve en `http://localhost:5173`. La URL del backend se configura en `fronten
 
 El cliente muestra los eventos sembrados con su aforo, y permite reservar indicando código de evento, código de usuario y cantidad de entradas, mostrando el resultado (éxito o error) tras cada intento.
 
+## Pruebas unitarias
+
+```bash
+cd backend
+dotnet test tests/TicketReservation.Application.Tests
+```
+
+Proyecto xUnit (`backend/tests/TicketReservation.Application.Tests`) con pruebas de `ReservationService`,
+`EventService` y de la jerarquía de excepciones de dominio, usando Moq para los repositorios/UnitOfWork y
+FluentAssertions para las aserciones.
+
 ## Verificación rápida vía curl
 
 ```bash

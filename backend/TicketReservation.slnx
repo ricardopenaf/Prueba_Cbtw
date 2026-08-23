@@ -5,4 +5,7 @@
     <Project Path="src/TicketReservation.Domain/TicketReservation.Domain.csproj" />
     <Project Path="src/TicketReservation.Infrastructure/TicketReservation.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/TicketReservation.Application.Tests/TicketReservation.Application.Tests.csproj" />
+  </Folder>
 </Solution>
