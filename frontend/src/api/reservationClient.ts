@@ -19,6 +19,16 @@ export interface ReservationResponse {
   remainingSeats: number
 }
 
+export interface ReservationListItem {
+  reservationId: string
+  eventCode: string
+  eventName: string
+  userCode: string
+  userFullName: string
+  quantity: number
+  reservedAtUtc: string
+}
+
 interface ProblemDetails {
   title?: string
   detail?: string
@@ -52,4 +62,9 @@ export function reserveTicket(eventCode: string, userCode: string, quantity: num
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ eventCode, userCode, quantity }),
   }).then((r) => handleResponse<ReservationResponse>(r))
+}
+
+export function listReservations(from: string, to: string): Promise<ReservationListItem[]> {
+  const query = new URLSearchParams({ from, to })
+  return fetch(`${API_BASE_URL}/api/reservations?${query}`).then((r) => handleResponse<ReservationListItem[]>(r))
 }

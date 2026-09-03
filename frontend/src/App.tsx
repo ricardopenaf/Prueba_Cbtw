@@ -3,6 +3,7 @@ import { ApiError, listEvents, reserveTicket } from './api/reservationClient'
 import type { EventSummary, ReservationResponse } from './api/reservationClient'
 import EventsList from './components/EventsList'
 import ReservationForm from './components/ReservationForm'
+import ReservationsList from './components/ReservationsList'
 import ResultPanel from './components/ResultPanel'
 import './App.css'
 
@@ -60,6 +61,11 @@ function App() {
       </section>
 
       <ResultPanel reservation={reservation} error={error} />
+
+      <section>
+        <h2>Reservaciones por rango de fechas</h2>
+        <ReservationsList />
+      </section>
     </div>
   )
 }

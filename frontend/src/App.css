@@ -31,31 +31,40 @@ h2 {
   border-bottom: 1px solid #ddd;
 }
 
-.reservation-form {
+.reservation-form,
+.date-range-form {
   display: flex;
   flex-direction: column;
   gap: 12px;
   max-width: 320px;
 }
 
-.reservation-form .field {
+.date-range-form {
+  margin-bottom: 16px;
+}
+
+.reservation-form .field,
+.date-range-form .field {
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
-.reservation-form input {
+.reservation-form input,
+.date-range-form input {
   padding: 8px;
   font-size: 14px;
 }
 
-.reservation-form button {
+.reservation-form button,
+.date-range-form button {
   padding: 10px;
   font-size: 14px;
   cursor: pointer;
 }
 
-.reservation-form button:disabled {
+.reservation-form button:disabled,
+.date-range-form button:disabled {
   cursor: not-allowed;
   opacity: 0.6;
 }

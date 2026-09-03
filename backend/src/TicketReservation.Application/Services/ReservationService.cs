@@ -79,4 +79,20 @@ public class ReservationService : IReservationService
                 remainingSeats.Value);
         }, cancellationToken);
     }
+
+    public async Task<IReadOnlyList<ReservationListItemResponse>> ListByDateRangeAsync(
+        DateOnly fromDate,
+        DateOnly toDate,
+        CancellationToken cancellationToken = default)
+    {
+        if (fromDate > toDate)
+        {
+            throw new InvalidReservationRequestException("La fecha inicial no puede ser posterior a la fecha final.");
+        }
+
+        var fromUtc = DateTime.SpecifyKind(fromDate.ToDateTime(TimeOnly.MinValue), DateTimeKind.Utc);
+        var toUtcExclusive = DateTime.SpecifyKind(toDate.AddDays(1).ToDateTime(TimeOnly.MinValue), DateTimeKind.Utc);
+
+        return await _reservationRepository.ListByDateRangeAsync(fromUtc, toUtcExclusive, cancellationToken);
+    }
 }

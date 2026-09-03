@@ -206,4 +206,58 @@ public class ReservationServiceTests
             u => u.ExecuteInTransactionAsync(It.IsAny<Func<CancellationToken, Task<ReservationResponse>>>(), It.IsAny<CancellationToken>()),
             Times.Once);
     }
+
+    [Fact]
+    public async Task ListByDateRangeAsync_WhenFromDateIsAfterToDate_ThrowsInvalidReservationRequestException()
+    {
+        var from = new DateOnly(2026, 6, 10);
+        var to = new DateOnly(2026, 6, 1);
+
+        var act = () => _sut.ListByDateRangeAsync(from, to);
+
+        await act.Should().ThrowAsync<InvalidReservationRequestException>();
+        _reservationRepository.Verify(
+            r => r.ListByDateRangeAsync(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<CancellationToken>()),
+            Times.Never);
+    }
+
+    [Fact]
+    public async Task ListByDateRangeAsync_PassesInclusiveUtcRangeToRepository()
+    {
+        var from = new DateOnly(2026, 6, 1);
+        var to = new DateOnly(2026, 6, 30);
+
+        _reservationRepository
+            .Setup(r => r.ListByDateRangeAsync(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(Array.Empty<ReservationListItemResponse>());
+
+        await _sut.ListByDateRangeAsync(from, to);
+
+        var expectedFromUtc = new DateTime(2026, 6, 1, 0, 0, 0, DateTimeKind.Utc);
+        var expectedToUtcExclusive = new DateTime(2026, 7, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        _reservationRepository.Verify(
+            r => r.ListByDateRangeAsync(expectedFromUtc, expectedToUtcExclusive, It.IsAny<CancellationToken>()),
+            Times.Once);
+    }
+
+    [Fact]
+    public async Task ListByDateRangeAsync_WithSameFromAndToDate_ReturnsRepositoryResults()
+    {
+        var day = new DateOnly(2026, 6, 15);
+        var expected = new[]
+        {
+            new ReservationListItemResponse(
+                Guid.NewGuid(), "EVT-001", "Evento de prueba", "USR-001", "Usuario de prueba", 2,
+                new DateTime(2026, 6, 15, 10, 30, 0, DateTimeKind.Utc)),
+        };
+
+        _reservationRepository
+            .Setup(r => r.ListByDateRangeAsync(It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(expected);
+
+        var result = await _sut.ListByDateRangeAsync(day, day);
+
+        result.Should().BeEquivalentTo(expected);
+    }
 }
